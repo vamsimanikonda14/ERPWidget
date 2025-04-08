@@ -43,7 +43,7 @@ define("DS/MyWidget/scripts/MyWidget", ['DS/PlatformAPI/PlatformAPI', 'DS/WAFDat
         fetchDocuments: function() {
             // Assume we are fetching all documents for simplicity
             let spaceUrl = PlatformAPI.getApplicationConfiguration("app.urls.myapps");
-            var resource = '/resources/v1/modeler/documents/search?searchStr=DOC-001';  // Endpoint for fetching all documents
+            var resource = '/resources/v1/modeler/documents/search';  // Endpoint for fetching all documents
             
             // Using WAFData to make an authenticated request
             WAFData.authenticatedRequest(spaceUrl + resource, {

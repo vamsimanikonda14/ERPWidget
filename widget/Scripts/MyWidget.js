@@ -13,7 +13,7 @@ define("DS/MyWidget/scripts/MyWidget", ['DS/PlatformAPI/PlatformAPI', 'DS/WAFDat
                                         "</div>" +
                                      "</div>";
 
-            // Remove the drag-and-drop feature (commenting out the drag-and-drop code)
+            // The drag-and-drop feature was removed earlier, and now we are not calling any fetch function.
             /*
             var theInput = document.querySelector('#mainContainer');
             DataDragAndDrop.droppable(theInput, {
@@ -31,79 +31,15 @@ define("DS/MyWidget/scripts/MyWidget", ['DS/PlatformAPI/PlatformAPI', 'DS/WAFDat
             });
             */
 
-            // Fetch and display all documents from 3DExperience directly
-            myWidget.fetchDocuments();
-            
+            // The fetchDocuments method is now removed, as you requested.
+
             // Handle return button click
             document.getElementById('returnBtn')?.addEventListener('click', function () {
                 myWidget.resetUI();
             });
         },
 
-        fetchDocuments: function() {
-            // Assume we are fetching all documents for simplicity
-            let spaceUrl = PlatformAPI.getApplicationConfiguration("app.urls.myapps");
-            var resource = '/resources/v1/modeler/documents/search';  // Endpoint for fetching all documents
-            
-            // Using WAFData to make an authenticated request
-            WAFData.authenticatedRequest(spaceUrl + resource, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                type: 'json',
-                onComplete: function (rs) {
-                    console.log("Documents fetched", rs);
-                    myWidget.displayDocuments(rs); // Pass the response to display
-                },
-                onFailure: function (error) {
-                    console.log("Error occurred", error);
-                    // Handle error here (e.g., show an alert to the user)
-                    alert('An error occurred while fetching documents.');
-                }
-            });
-        },
-
-        displayDocuments: function (response) {
-            var responseForm = document.querySelector('#responseForm');
-            var responseContent = document.querySelector('#responseContent');
-
-            // Clear previous content before adding new content
-            responseContent.innerHTML = '';
-            var inputs = responseForm.querySelectorAll('input, textarea, select');
-            inputs.forEach(function(input) {
-                input.value = '';  // Clear the input value
-            });
-
-            if (response && response.member && response.member.length > 0) {
-                var documents = response.member;
-
-                // Generate the table for displaying all documents
-                var tableHTML = "<table class='response-table'>";
-                tableHTML += "<thead><tr><th>Document Name</th><th>Version</th><th>Type</th><th>Size (MB)</th><th>Owner</th></tr></thead>";
-                tableHTML += "<tbody>";
-
-                // Iterate over each document and add it to the table
-                documents.forEach(function(document) {
-                    tableHTML += "<tr>";
-                    tableHTML += "<td>" + document.name + "</td>";
-                    tableHTML += "<td>" + document.version + "</td>";
-                    tableHTML += "<td>" + document.type + "</td>";
-                    tableHTML += "<td>" + document.size + " MB</td>";
-                    tableHTML += "<td>" + document.owner + "</td>";
-                    tableHTML += "</tr>";
-                });
-
-                tableHTML += "</tbody></table>";
-                
-                responseContent.innerHTML = "<div class='table-container'>" + tableHTML + "</div>";
-                responseForm.style.display = 'block';  
-                widget.body.style.backgroundColor = '#ffffff';  
-            } else {
-                responseContent.innerHTML = "<div>No documents available</div>";
-            }
-        },
-
+        // Reset UI (Hide response form and reset background color)
         resetUI: function() {
             var responseForm = document.querySelector('#responseForm');
             responseForm.style.display = 'none';
